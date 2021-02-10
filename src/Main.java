@@ -11,9 +11,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class Main extends Application {
-    String[] pitches = {"C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F",
-            "F\u266F/G\u266D", "G", "G\u266F/A\u266D", "A", "A\u266F/B\u266D", "B"};
-    ArrayList<Button> buttons = new ArrayList<>(12);
+    String[] pitches;
+    ArrayList<Button> buttons;
     int selButton;
     ComboBox<String> combo;
 
@@ -24,6 +23,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        pitches = new String[] {"C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F",
+                "F\u266F/G\u266D", "G", "G\u266F/A\u266D", "A", "A\u266F/B\u266D", "B"};
+
+        buttons = new ArrayList<>(12);
         for (int i = 0; i < 12; i++)
             buttons.add(i, new Button(pitches[i]));
         for (int selButton = 0; selButton < buttons.size(); selButton++) {
@@ -32,7 +35,11 @@ public class Main extends Application {
         }
 
         currFreq = new ArrayList<>(12);
+        ArrayList<String> aFreq = new ArrayList<>(97);
+        for (int i = 392; i < 490; i++)
+            aFreq.add("a = " + i + "Hz");
         combo = new ComboBox<>();
+        combo.getItems().addAll(aFreq);
 
         HBox freqBox = new HBox();
         freqBox.getChildren().add(combo);
