@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class Main extends Application {
     String[] notes;
     ArrayList<Button> buttons;
-    int selButton;
     ComboBox<String> freqCombo;
     ComboBox<String> durCombo;
     Slider vol;
@@ -34,7 +33,8 @@ public class Main extends Application {
             buttons.add(i, new Button(notes[i]));
         for (int note = 0; note < buttons.size(); note++) {
             buttons.get(note).setText(notes[note]);
-            buttons.get(note).setOnAction(e -> btnClick());
+            int finalNote = note;
+            buttons.get(note).setOnAction(e -> btnClick(buttons.indexOf(buttons.get(finalNote))));
         }
 
         currFreq = new ArrayList<>(12);
@@ -98,9 +98,12 @@ public class Main extends Application {
         stage.show();
     }
 
-    public void btnClick() {
+    public void btnClick(int currButton) {
+        freqClick();
+        durClick();
+        volChanged();
         sound = new Thread(new Tone(), "Sound");
-        Tone.freq = currFreq.get(selButton);
+        Tone.freq = currFreq.get(currButton);
         Tone.ms = mSec;
         Tone.volume = volume;
         sound.start();
@@ -127,8 +130,7 @@ public class Main extends Application {
     public void stopPressed() {
         int signal = 0;
         while (!sound.isInterrupted()) {
-            for (int i = 0; i < mSec * 10; i++)
-                sound.interrupt();
+            sound.interrupt();
             System.out.println("sent signal " + signal);
             if (sound.isInterrupted())
                 return;
