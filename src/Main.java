@@ -98,7 +98,6 @@ public class Main extends Application {
         stage.setTitle("DiapasonFX");
         Image applicationIcon = new Image(getClass().getResourceAsStream("diapason.png"));
         stage.getIcons().add(applicationIcon);
-
         stage.show();
     }
 
