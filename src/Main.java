@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -95,6 +96,9 @@ public class Main extends Application {
         stage.setMinHeight(160);
         stage.setMinWidth(420);
         stage.setTitle("DiapasonFX");
+        Image applicationIcon = new Image(getClass().getResourceAsStream("diapason.png"));
+        stage.getIcons().add(applicationIcon);
+
         stage.show();
     }
 
