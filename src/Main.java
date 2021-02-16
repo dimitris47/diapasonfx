@@ -9,8 +9,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.prefs.Preferences;
 
 public class Main extends Application {
+    Preferences prefs;
+
     String[] notes;
     ArrayList<Button> buttons;
     ComboBox<String> freqCombo;
@@ -26,6 +29,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        prefs = Preferences.userNodeForPackage(Main.class);
+
         notes = new String[] {"C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F",
                 "F\u266F/G\u266D", "G", "G\u266F/A\u266D", "A", "A\u266F/B\u266D", "B"};
 
@@ -98,6 +103,18 @@ public class Main extends Application {
         stage.setTitle("DiapasonFX");
         Image applicationIcon = new Image(getClass().getResourceAsStream("diapason.png"));
         stage.getIcons().add(applicationIcon);
+
+        // RESTORE PREFERENCES
+        final String savedFreqIndex = prefs.get("freqIndex", "a = 440Hz");
+        freqCombo.setValue(savedFreqIndex);
+
+        // SAVE PREFERENCES
+        stage.setOnCloseRequest(e -> {
+            final String selectedPitch = "freqIndex";
+            String pitch = String.valueOf(freqCombo.getValue());
+            prefs.put(selectedPitch, pitch);
+        });
+
         stage.show();
     }
 
