@@ -105,14 +105,33 @@ public class Main extends Application {
         stage.getIcons().add(applicationIcon);
 
         // RESTORE PREFERENCES
-        final String savedFreqIndex = prefs.get("freqIndex", "a = 440Hz");
-        freqCombo.setValue(savedFreqIndex);
+        final String savedFrequency = prefs.get("freqIndex", "a = 440Hz");
+        freqCombo.setValue(savedFrequency);
+
+        final String savedDuration = prefs.get("durIndex", "1 sec");
+        durCombo.setValue(savedDuration);
+
+        final double savedWidth = Double.parseDouble(prefs.get("width", "480.0"));
+        final double savedHeight = Double.parseDouble(prefs.get("height", "192.0"));
+        stage.setWidth(savedWidth);
+        stage.setHeight(savedHeight);
 
         // SAVE PREFERENCES
         stage.setOnCloseRequest(e -> {
             final String selectedPitch = "freqIndex";
-            String pitch = String.valueOf(freqCombo.getValue());
+            String pitch = freqCombo.getValue();
             prefs.put(selectedPitch, pitch);
+
+            final String selectedDuration = "durIndex";
+            String duration = durCombo.getValue();
+            prefs.put(selectedDuration, duration);
+
+            final String stWidth = "width";
+            String currWidth = String.valueOf(stage.getWidth());
+            prefs.put(stWidth, currWidth);
+            final String stHeight = "height";
+            String currHeight = String.valueOf(stage.getHeight());
+            prefs.put(stHeight, currHeight);
         });
 
         stage.show();
