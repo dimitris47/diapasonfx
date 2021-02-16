@@ -111,6 +111,11 @@ public class Main extends Application {
         final String savedDuration = prefs.get("durIndex", "1 sec");
         durCombo.setValue(savedDuration);
 
+        final double savedX = Double.parseDouble(prefs.get("locationX", "128.0"));
+        final double savedY = Double.parseDouble(prefs.get("locationY", "64.0"));
+        stage.setX(savedX);
+        stage.setY(savedY);
+
         final double savedWidth = Double.parseDouble(prefs.get("width", "480.0"));
         final double savedHeight = Double.parseDouble(prefs.get("height", "192.0"));
         stage.setWidth(savedWidth);
@@ -125,6 +130,11 @@ public class Main extends Application {
             final String selectedDuration = "durIndex";
             String duration = durCombo.getValue();
             prefs.put(selectedDuration, duration);
+
+            final String locX = "locationX";
+            prefs.put(locX, String.valueOf(stage.getX()));
+            final String locY = "locationY";
+            prefs.put(locY, String.valueOf(stage.getY()));
 
             final String stWidth = "width";
             String currWidth = String.valueOf(stage.getWidth());
