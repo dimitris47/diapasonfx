@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Diapason
+Exec=java -jar /home/jim/Software/Developing/Java-GUI/DiapasonFX/DiapasonFX.jar
+Comment=
+Terminal=false
+Icon=/home/jim/Software/Developing/Java-GUI/DiapasonFX/res/diapason.png
+Type=Application
+StartupWMClass=Diapason
