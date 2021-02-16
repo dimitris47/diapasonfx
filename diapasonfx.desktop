@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Diapason
-Exec=java -jar $JAR_DIRECTORYDiapasonFX.jar
+Exec=java -jar $JAR_DIRECTORY/DiapasonFX.jar
 Comment=
 Terminal=false
 Icon=$JAR_DIRECTORY/res/diapason.png
