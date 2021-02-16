@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
-public class Main extends Application {
+public class Diapason extends Application {
     Preferences prefs;
 
     String[] notes;
@@ -29,7 +29,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        prefs = Preferences.userNodeForPackage(Main.class);
+        prefs = Preferences.userNodeForPackage(Diapason.class);
 
         notes = new String[] {"C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F",
                 "F\u266F/G\u266D", "G", "G\u266F/A\u266D", "A", "A\u266F/B\u266D", "B"};
@@ -100,7 +100,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setMinHeight(160);
         stage.setMinWidth(420);
-        stage.setTitle("DiapasonFX");
+        stage.setTitle("Diapason");
         Image applicationIcon = new Image(getClass().getResourceAsStream("diapason.png"));
         stage.getIcons().add(applicationIcon);
 
