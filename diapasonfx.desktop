@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Diapason
+Exec=java -jar $JAR_DIRECTORYDiapasonFX.jar
+Comment=
+Terminal=false
+Icon=$JAR_DIRECTORY/res/diapason.png
+Type=Application
+StartupWMClass=Diapason
