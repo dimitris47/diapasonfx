@@ -32,7 +32,6 @@ public class Tone implements Runnable {
             buf[0] = (byte) (Math.sin(angle) * volume);
             sdl.write(buf, 0, 1);
             if (t.isInterrupted()) {
-                System.out.println("Interrupted");
                 t.interrupt();
                 return;
             }
