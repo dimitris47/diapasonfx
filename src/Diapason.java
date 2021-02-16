@@ -186,8 +186,9 @@ public class Diapason extends Application {
     public void stopPressed() {
         int signal = 0;
         while (!sound.isInterrupted()) {
-            sound.interrupt();
-            System.out.println("sent signal " + signal);
+            for (int i = 0; i < mSec * 10; i++)
+                sound.interrupt();
+            System.out.println("sent stop signal " + signal);
             if (sound.isInterrupted())
                 return;
         }
