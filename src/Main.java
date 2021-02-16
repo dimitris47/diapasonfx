@@ -108,6 +108,9 @@ public class Main extends Application {
         final String savedFrequency = prefs.get("freqIndex", "a = 440Hz");
         freqCombo.setValue(savedFrequency);
 
+        final String savedVolume = prefs.get("volume", "50.0");
+        vol.setValue(Double.parseDouble(savedVolume));
+
         final String savedDuration = prefs.get("durIndex", "1 sec");
         durCombo.setValue(savedDuration);
 
@@ -126,6 +129,10 @@ public class Main extends Application {
             final String selectedPitch = "freqIndex";
             String pitch = freqCombo.getValue();
             prefs.put(selectedPitch, pitch);
+
+            final String selectedVolume = "volume";
+            String volume = String.valueOf(vol.getValue());
+            prefs.put(selectedVolume, volume);
 
             final String selectedDuration = "durIndex";
             String duration = durCombo.getValue();
