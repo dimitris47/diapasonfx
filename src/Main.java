@@ -86,7 +86,7 @@ public class Main extends Application {
 
         HBox infoBox = new HBox();
         about = new Button("About");
-        about.setOnAction(e -> aboutClicked());
+        about.setOnAction(e -> aboutClicked(stage.getX(), stage.getY()));
         infoBox.getChildren().add(about);
         infoBox.setAlignment(Pos.BOTTOM_CENTER);
 
@@ -193,7 +193,7 @@ public class Main extends Application {
         }
     }
 
-    public void aboutClicked() {
+    public void aboutClicked(double X, double Y) {
         String info = """
                 Program created by Dimitris Psathas
 
@@ -203,6 +203,8 @@ public class Main extends Application {
 
                 \u00A9 2021 Dimitris Psathas""";
         Dialog<String> infoDialog = new Dialog<>();
+        infoDialog.setX(X + 32);
+        infoDialog.setY(Y + 16);
         infoDialog.setTitle("Program info");
         ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         infoDialog.setContentText(info);
