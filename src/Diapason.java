@@ -69,10 +69,7 @@ public class Diapason extends Application {
         stop.setOnAction(e -> stopPressed());
 
         HBox freqBox = new HBox();
-        freqBox.getChildren().add(freqCombo);
-        freqBox.getChildren().add(vol);
-        freqBox.getChildren().add(durCombo);
-        freqBox.getChildren().add(stop);
+        freqBox.getChildren().addAll(freqCombo, vol, durCombo, stop);
         freqBox.setAlignment(Pos.TOP_CENTER);
 
         TilePane tile = new TilePane();
@@ -91,9 +88,7 @@ public class Diapason extends Application {
         infoBox.setAlignment(Pos.BOTTOM_CENTER);
 
         VBox box = new VBox();
-        box.getChildren().add(freqBox);
-        box.getChildren().add(tile);
-        box.getChildren().add(infoBox);
+        box.getChildren().addAll(freqBox, tile, infoBox);
         box.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(box, 420, 128);
@@ -205,7 +200,7 @@ public class Diapason extends Application {
         infoDialog.setX(X + 32);
         infoDialog.setY(Y + 16);
         infoDialog.setTitle("Program info");
-        ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        ButtonType type = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         infoDialog.setContentText(info);
         infoDialog.getDialogPane().getButtonTypes().add(type);
         infoDialog.showAndWait();
