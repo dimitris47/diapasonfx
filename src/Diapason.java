@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -89,6 +90,7 @@ public class Diapason extends Application {
 
         VBox box = new VBox();
         box.getChildren().addAll(freqBox, tile, infoBox);
+        box.setPadding(new Insets(8));
         box.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(box, 420, 128);
