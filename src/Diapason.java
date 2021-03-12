@@ -64,6 +64,7 @@ public class Diapason extends Application {
         vol = new Slider();
         vol.setValue(50);
         vol.setTooltip(new Tooltip("Volume"));
+        vol.setMinHeight(24);
         vol.setOnDragDetected(e -> volChanged());
 
         stop = new Button("Stop");
@@ -91,11 +92,12 @@ public class Diapason extends Application {
         VBox box = new VBox();
         box.getChildren().addAll(freqBox, tile, infoBox);
         box.setPadding(new Insets(8));
+        box.setSpacing(8);
         box.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(box, 420, 128);
+        Scene scene = new Scene(box, 420, 178);
         stage.setScene(scene);
-        stage.setMinHeight(160);
+        stage.setMinHeight(178);
         stage.setMinWidth(420);
         stage.setTitle("Diapason");
         Image applicationIcon = new Image(getClass().getResourceAsStream("diapason.png"));
@@ -117,7 +119,7 @@ public class Diapason extends Application {
         stage.setY(savedY);
 
         final double savedWidth = Double.parseDouble(prefs.get("width", "480.0"));
-        final double savedHeight = Double.parseDouble(prefs.get("height", "192.0"));
+        final double savedHeight = Double.parseDouble(prefs.get("height", "178.0"));
         stage.setWidth(savedWidth);
         stage.setHeight(savedHeight);
 
