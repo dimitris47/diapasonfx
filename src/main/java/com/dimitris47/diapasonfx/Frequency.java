@@ -1,3 +1,5 @@
+package com.dimitris47.diapasonfx;
+
 import java.util.ArrayList;
 
 public class Frequency {

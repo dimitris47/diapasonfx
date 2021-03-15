@@ -1,3 +1,5 @@
+package com.dimitris47.diapasonfx;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;

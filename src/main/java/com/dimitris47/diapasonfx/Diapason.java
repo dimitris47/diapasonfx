@@ -1,3 +1,5 @@
+package com.dimitris47.diapasonfx;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -64,7 +66,7 @@ public class Diapason extends Application {
         vol = new Slider();
         vol.setValue(50);
         vol.setTooltip(new Tooltip("Volume"));
-        vol.setMinHeight(24);
+        vol.setMinHeight(26);
         vol.setOnDragDetected(e -> volChanged());
 
         stop = new Button("Stop");
@@ -100,8 +102,6 @@ public class Diapason extends Application {
         stage.setMinHeight(178);
         stage.setMinWidth(420);
         stage.setTitle("Diapason");
-        Image applicationIcon = new Image(getClass().getResourceAsStream("diapason.png"));
-        stage.getIcons().add(applicationIcon);
 
         // RESTORE PREFERENCES
         final String savedFrequency = prefs.get("freqIndex", "a = 440Hz");

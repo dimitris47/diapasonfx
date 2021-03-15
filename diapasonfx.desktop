@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Diapason
+Name=com.dimitris47.diapasonfx.Diapason
 Exec=java -jar $JAR_DIRECTORY/DiapasonFX_Linux.jar
 Comment=
 Terminal=false
 Icon=$JAR_DIRECTORY/res/diapason.png
 Type=Application
-StartupWMClass=Diapason
+StartupWMClass=com.dimitris47.diapasonfx.Diapason
