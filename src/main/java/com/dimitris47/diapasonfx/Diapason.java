@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -82,8 +81,6 @@ public class Diapason extends Application {
         tile.setPrefColumns(6);
         tile.setPrefRows(2);
         tile.setAlignment(Pos.CENTER);
-        for (Button button : buttons)
-            button.setMinSize(64, 16);
 
         HBox infoBox = new HBox();
         about = new Button("About");
@@ -96,6 +93,22 @@ public class Diapason extends Application {
         box.setPadding(new Insets(8));
         box.setSpacing(8);
         box.setAlignment(Pos.CENTER);
+
+        for (Button button : buttons) {
+            button.setMinSize(64, 16);
+            button.minWidthProperty().bind(stage.widthProperty().divide(7));
+            button.minHeightProperty().bind(stage.heightProperty().divide(7));
+        }
+        freqCombo.minWidthProperty().bind(stage.widthProperty().divide(4));
+        freqCombo.minHeightProperty().bind(stage.heightProperty().divide(7));
+        vol.minWidthProperty().bind(stage.widthProperty().divide(3));
+        vol.minHeightProperty().bind(stage.heightProperty().divide(7));
+        durCombo.minWidthProperty().bind(stage.widthProperty().divide(5));
+        durCombo.minHeightProperty().bind(stage.heightProperty().divide(7));
+        stop.minWidthProperty().bind(stage.widthProperty().divide(8));
+        stop.minHeightProperty().bind(stage.heightProperty().divide(7));
+        about.minWidthProperty().bind(stage.widthProperty().divide(6));
+        about.minHeightProperty().bind(stage.heightProperty().divide(7));
 
         Scene scene = new Scene(box, 420, 178);
         stage.setScene(scene);
