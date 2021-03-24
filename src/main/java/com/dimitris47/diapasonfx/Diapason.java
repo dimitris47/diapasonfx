@@ -15,6 +15,8 @@ import java.util.prefs.Preferences;
 
 public class Diapason extends Application {
     Preferences prefs;
+    double minWidth;
+    double minHeight;
 
     String[] notes;
     ArrayList<Button> buttons;
@@ -32,6 +34,8 @@ public class Diapason extends Application {
     @Override
     public void start(Stage stage) {
         prefs = Preferences.userNodeForPackage(Diapason.class);
+        minWidth = 496;
+        minHeight = 192;
 
         notes = new String[] {"C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F",
                 "F\u266F/G\u266D", "G", "G\u266F/A\u266D", "A", "A\u266F/B\u266D", "B"};
@@ -72,6 +76,7 @@ public class Diapason extends Application {
         stop.setOnAction(e -> stopPressed());
 
         HBox freqBox = new HBox();
+        freqBox.setSpacing(8);
         freqBox.getChildren().addAll(freqCombo, vol, durCombo, stop);
         freqBox.setAlignment(Pos.TOP_CENTER);
 
@@ -110,60 +115,54 @@ public class Diapason extends Application {
         about.minWidthProperty().bind(stage.widthProperty().divide(6));
         about.minHeightProperty().bind(stage.heightProperty().divide(7));
 
-        Scene scene = new Scene(box, 420, 178);
+        Scene scene = new Scene(box, minWidth, minHeight);
         stage.setScene(scene);
-        stage.setMinHeight(178);
-        stage.setMinWidth(420);
+        stage.setMinWidth(minWidth);
+        stage.setMinHeight(minHeight);
         stage.setTitle("Diapason");
 
-        // RESTORE PREFERENCES
+        restorePrefs(stage);
+        stage.setOnCloseRequest(e -> savePrefs(stage));
+        stage.show();
+    }
+
+    private void savePrefs(Stage stage) {
+        final String selectedPitch = "freqIndex";
+        String pitch = freqCombo.getValue();
+        prefs.put(selectedPitch, pitch);
+        final String selectedVolume = "volume";
+        String volume = String.valueOf(vol.getValue());
+        prefs.put(selectedVolume, volume);
+        final String selectedDuration = "durIndex";
+        String duration = durCombo.getValue();
+        prefs.put(selectedDuration, duration);
+        final String locX = "locationX";
+        prefs.put(locX, String.valueOf(stage.getX()));
+        final String locY = "locationY";
+        prefs.put(locY, String.valueOf(stage.getY()));
+        final String stWidth = "width";
+        String currWidth = String.valueOf(stage.getWidth());
+        prefs.put(stWidth, currWidth);
+        final String stHeight = "height";
+        String currHeight = String.valueOf(stage.getHeight());
+        prefs.put(stHeight, currHeight);
+    }
+
+    private void restorePrefs(Stage stage) {
         final String savedFrequency = prefs.get("freqIndex", "a = 440Hz");
         freqCombo.setValue(savedFrequency);
-
         final String savedVolume = prefs.get("volume", "50.0");
         vol.setValue(Double.parseDouble(savedVolume));
-
         final String savedDuration = prefs.get("durIndex", "1 sec");
         durCombo.setValue(savedDuration);
-
         final double savedX = Double.parseDouble(prefs.get("locationX", "128.0"));
         final double savedY = Double.parseDouble(prefs.get("locationY", "64.0"));
         stage.setX(savedX);
         stage.setY(savedY);
-
-        final double savedWidth = Double.parseDouble(prefs.get("width", "480.0"));
-        final double savedHeight = Double.parseDouble(prefs.get("height", "178.0"));
+        final double savedWidth = Double.parseDouble(prefs.get("width", String.valueOf(minWidth)));
+        final double savedHeight = Double.parseDouble(prefs.get("height", String.valueOf(minHeight)));
         stage.setWidth(savedWidth);
         stage.setHeight(savedHeight);
-
-        // SAVE PREFERENCES
-        stage.setOnCloseRequest(e -> {
-            final String selectedPitch = "freqIndex";
-            String pitch = freqCombo.getValue();
-            prefs.put(selectedPitch, pitch);
-
-            final String selectedVolume = "volume";
-            String volume = String.valueOf(vol.getValue());
-            prefs.put(selectedVolume, volume);
-
-            final String selectedDuration = "durIndex";
-            String duration = durCombo.getValue();
-            prefs.put(selectedDuration, duration);
-
-            final String locX = "locationX";
-            prefs.put(locX, String.valueOf(stage.getX()));
-            final String locY = "locationY";
-            prefs.put(locY, String.valueOf(stage.getY()));
-
-            final String stWidth = "width";
-            String currWidth = String.valueOf(stage.getWidth());
-            prefs.put(stWidth, currWidth);
-            final String stHeight = "height";
-            String currHeight = String.valueOf(stage.getHeight());
-            prefs.put(stHeight, currHeight);
-        });
-
-        stage.show();
     }
 
     public void btnClick(int currButton) {
