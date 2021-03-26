@@ -89,7 +89,7 @@ public class Diapason extends Application {
 
         HBox infoBox = new HBox();
         about = new Button("About");
-        about.setOnAction(e -> aboutClicked(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight()));
+        about.setOnAction(e -> aboutClicked(stage));
         infoBox.getChildren().add(about);
         infoBox.setAlignment(Pos.BOTTOM_CENTER);
 
@@ -203,7 +203,7 @@ public class Diapason extends Application {
         }
     }
 
-    public void aboutClicked(double X, double Y, double W, double H) {
+    public void aboutClicked(Stage stage) {
         String info = """
                 Program created by Dimitris Psathas
 
@@ -213,12 +213,11 @@ public class Diapason extends Application {
 
                 \u00A9 2021 Dimitris Psathas""";
         Dialog<String> infoDialog = new Dialog<>();
-        infoDialog.setX(X + W/2 - 180);
-        infoDialog.setY(Y + H/2 - 80);
         infoDialog.setTitle("Program info");
         ButtonType type = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         infoDialog.setContentText(info);
         infoDialog.getDialogPane().getButtonTypes().add(type);
+        infoDialog.initOwner(stage);
         infoDialog.showAndWait();
     }
 
