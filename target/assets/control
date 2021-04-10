@@ -1,0 +1,8 @@
+Package: DiapasonFX
+Version: 1.0
+Section: misc
+Priority: optional
+Architecture: amd64
+Maintainer: ACME <>
+Description: DiapasonFX
+Distribution: development
