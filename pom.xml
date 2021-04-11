@@ -66,13 +66,13 @@
                         <configuration>
                             <!-- mandatory -->
                             <mainClass>com.dimitris47.diapasonfx.Launcher</mainClass>
+                            <organizationName>DP Software</organizationName>
+                            <licenseFile>LICENSE</licenseFile>
                             <!-- optional -->
                             <bundleJre>true</bundleJre>
                             <generateInstaller>true</generateInstaller>
                             <administratorRequired>false</administratorRequired>
                             <platform>auto</platform>
-                            <organizationName>DP Software</organizationName>
-                            <maintainer>Dimitris Psathas</maintainer>
                         </configuration>
                     </execution>
                 </executions>
