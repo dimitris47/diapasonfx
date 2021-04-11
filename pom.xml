@@ -71,6 +71,8 @@
                             <generateInstaller>true</generateInstaller>
                             <administratorRequired>false</administratorRequired>
                             <platform>auto</platform>
+                            <organizationName>DP Software</organizationName>
+                            <maintainer>Dimitris Psathas</maintainer>
                         </configuration>
                     </execution>
                 </executions>
