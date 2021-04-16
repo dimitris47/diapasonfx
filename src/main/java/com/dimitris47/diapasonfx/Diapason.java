@@ -5,11 +5,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
@@ -20,15 +23,12 @@ public class Diapason extends Application {
 
     String[] notes;
     ArrayList<Button> buttons;
-    ComboBox<String> freqCombo;
-    ComboBox<String> durCombo;
+    ComboBox<String> freqCombo, durCombo;
     Slider vol;
-    Button stop;
-    Button about;
+    Button stop, about;
 
     static ArrayList<Double> currFreq;
-    static int mSec;
-    static int volume;
+    static int mSec, volume;
     static Thread sound;
 
     @Override
@@ -57,6 +57,23 @@ public class Diapason extends Application {
         freqCombo.getItems().addAll(aFreq);
         freqCombo.setValue("a = 440Hz");
         freqCombo.setOnAction(e -> freqClick());
+        freqCombo.setOnScroll(e -> {
+            int deltaY = (int) e.getDeltaY();
+            if (deltaY > 0) {
+                try {
+                    Robot r = new Robot();
+                    r.keyPress(java.awt.event.KeyEvent.VK_UP);
+                    r.keyRelease(java.awt.event.KeyEvent.VK_UP);
+                } catch (AWTException exc) { exc.printStackTrace(); }
+            }
+            else if  (deltaY < 0) {
+                try {
+                    Robot r = new Robot();
+                    r.keyPress(java.awt.event.KeyEvent.VK_DOWN);
+                    r.keyRelease(java.awt.event.KeyEvent.VK_DOWN);
+                } catch (AWTException exc) { exc.printStackTrace(); }
+            }
+        });
 
         ArrayList<String> dur = new ArrayList<>();
         for (int i = 1; i < 11; i++)
@@ -64,7 +81,6 @@ public class Diapason extends Application {
         durCombo = new ComboBox<>();
         durCombo.getItems().addAll(dur);
         durCombo.setValue("1 sec");
-        freqCombo.setOnAction(e -> durClick());
 
         vol = new Slider();
         vol.setValue(50);
