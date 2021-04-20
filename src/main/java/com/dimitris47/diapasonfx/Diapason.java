@@ -34,7 +34,7 @@ public class Diapason extends Application {
     @Override
     public void start(Stage stage) {
         prefs = Preferences.userNodeForPackage(Diapason.class);
-        minWidth = 496;
+        minWidth = 480;
         minHeight = 192;
 
         notes = new String[] {"C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F",
