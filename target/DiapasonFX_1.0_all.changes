@@ -1,5 +1,5 @@
 Format: 1.8
-Date: Mon, 26 Apr 2021 12:32:58 +0300
+Date: Mon, 26 Apr 2021 18:21:30 +0300
 Source: DiapasonFX
 Binary: DiapasonFX
 Architecture: amd64
@@ -13,8 +13,8 @@ Description:
 Changes:
  DiapasonFX (1.0) development; urgency=low
 Checksums-Sha1:
- a5955145baa2a895a747b6ffd4dbd1d36801ee5a 37248510 DiapasonFX_1.0.deb
+ aeefd183128c7c2b42c1a7a7fa53fe17d98ad631 37248440 DiapasonFX_1.0.deb
 Checksums-Sha256:
- 54dc2975bd499f781dc7fd96803d080bbbc89fcef25f7e47d3415d72aa210d7c 37248510 DiapasonFX_1.0.deb
+ d94b82fc9254bc576f1a55150b6dfc97ae880bb9213a8f63c9d31aecceaa031f 37248440 DiapasonFX_1.0.deb
 Files:
- 0c769d113af0f07b4dba7c5fd507457d 37248510 misc optional DiapasonFX_1.0.deb
+ fafc12f2ea739ed5d01e2712d8681ba8 37248440 misc optional DiapasonFX_1.0.deb
