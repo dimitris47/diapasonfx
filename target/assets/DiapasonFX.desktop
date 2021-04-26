@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=DiapasonFX
+GenericName=DiapasonFX
+Comment=DiapasonFX
+Exec=/opt/DiapasonFX/DiapasonFX %U
+Icon=/opt/DiapasonFX/DiapasonFX.png
+Terminal=false
+Type=Application
+StartupNotify=true

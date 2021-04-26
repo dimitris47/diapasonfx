@@ -1,0 +1,20 @@
+Format: 1.8
+Date: Mon, 26 Apr 2021 12:32:58 +0300
+Source: DiapasonFX
+Binary: DiapasonFX
+Architecture: amd64
+Version: 1.0
+Distribution: development
+Urgency: low
+Maintainer: DP Software <>
+Changed-By: DP Software <>
+Description:
+ DiapasonFX - DiapasonFX
+Changes:
+ DiapasonFX (1.0) development; urgency=low
+Checksums-Sha1:
+ a5955145baa2a895a747b6ffd4dbd1d36801ee5a 37248510 DiapasonFX_1.0.deb
+Checksums-Sha256:
+ 54dc2975bd499f781dc7fd96803d080bbbc89fcef25f7e47d3415d72aa210d7c 37248510 DiapasonFX_1.0.deb
+Files:
+ 0c769d113af0f07b4dba7c5fd507457d 37248510 misc optional DiapasonFX_1.0.deb
