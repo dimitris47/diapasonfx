@@ -66,13 +66,19 @@
                         <configuration>
                             <!-- mandatory -->
                             <mainClass>com.dimitris47.diapasonfx.Launcher</mainClass>
-                            <organizationName>DP Software</organizationName>
-                            <licenseFile>LICENSE</licenseFile>
                             <!-- optional -->
                             <bundleJre>true</bundleJre>
+                            <linuxConfig>
+                                <pngFile>target/assets/linux/DiapasonFX.png</pngFile>
+                            </linuxConfig>
+                            <winConfig>
+                                <icoFile>target/assets/linux/DiapasonFX.ico</icoFile>
+                            </winConfig>
                             <generateInstaller>true</generateInstaller>
                             <administratorRequired>false</administratorRequired>
                             <platform>auto</platform>
+                            <organizationName>DP Software</organizationName>
+                            <licenseFile>LICENSE</licenseFile>
                         </configuration>
                     </execution>
                 </executions>
