@@ -74,6 +74,10 @@
                             <winConfig>
                                 <icoFile>target/assets/linux/DiapasonFX.ico</icoFile>
                             </winConfig>
+                            <macConfig>
+                                <icnsFile>target/assets/mac/DiapasonFX.icns</icnsFile>
+                                <volumeIcon>target/assets/mac/DiapasonFX.icns</volumeIcon>
+                            </macConfig>
                             <generateInstaller>true</generateInstaller>
                             <administratorRequired>false</administratorRequired>
                             <platform>auto</platform>
