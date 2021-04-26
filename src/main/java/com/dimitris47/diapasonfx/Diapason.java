@@ -111,7 +111,7 @@ public class Diapason extends Application {
 
         VBox box = new VBox();
         box.getChildren().addAll(freqBox, tile, infoBox);
-        box.setPadding(new Insets(8));
+        box.setPadding(new Insets(12));
         box.setSpacing(8);
         box.setAlignment(Pos.CENTER);
 
@@ -228,11 +228,10 @@ public class Diapason extends Application {
                 Published under the GPLv3 License
 
                 \u00A9 2021 Dimitris Psathas""";
-        Dialog<String> infoDialog = new Dialog<>();
-        infoDialog.setTitle("Program info");
-        ButtonType type = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        Alert infoDialog = new Alert(Alert.AlertType.INFORMATION);
+        infoDialog.setTitle("Program Info");
+        infoDialog.setHeaderText("DiapasonFX");
         infoDialog.setContentText(info);
-        infoDialog.getDialogPane().getButtonTypes().add(type);
         infoDialog.initOwner(stage);
         infoDialog.showAndWait();
     }
