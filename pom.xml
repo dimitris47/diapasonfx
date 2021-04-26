@@ -64,15 +64,13 @@
                             <goal>package</goal>
                         </goals>
                         <configuration>
-                            <!-- mandatory -->
                             <mainClass>com.dimitris47.diapasonfx.Launcher</mainClass>
-                            <!-- optional -->
                             <bundleJre>true</bundleJre>
                             <linuxConfig>
                                 <pngFile>target/assets/linux/DiapasonFX.png</pngFile>
                             </linuxConfig>
                             <winConfig>
-                                <icoFile>target/assets/linux/DiapasonFX.ico</icoFile>
+                                <icoFile>target\assets\windows\DiapasonFX.ico</icoFile>
                             </winConfig>
                             <macConfig>
                                 <icnsFile>target/assets/mac/DiapasonFX.icns</icnsFile>
