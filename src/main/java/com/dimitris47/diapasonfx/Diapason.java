@@ -27,7 +27,7 @@ public class Diapason extends Application {
     ComboBox<String> freqCombo;
     Label lblVol;
     Slider vol;
-    Button about;
+    Button help, about;
 
     static ArrayList<Double> currFreq;
     static int volume;
@@ -37,7 +37,7 @@ public class Diapason extends Application {
     public void start(Stage stage) {
         prefs = Preferences.userNodeForPackage(Diapason.class);
         minWidth = 480;
-        minHeight = 192;
+        minHeight = 224;
 
         notes = new String[] {"C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F",
                 "F\u266F/G\u266D", "G", "G\u266F/A\u266D", "A", "A\u266F/B\u266D", "B"};
@@ -56,7 +56,6 @@ public class Diapason extends Application {
         for (int i = 392; i < 490; i++)
             aFreq.add("a = " + i + "Hz");
         freqCombo = new ComboBox<>();
-//        freqCombo.getEditor().setAlignment(Pos.CENTER);
         freqCombo.getItems().addAll(aFreq);
         freqCombo.setValue("a = 440Hz");
         freqCombo.setOnAction(e -> freqClick());
@@ -101,27 +100,31 @@ public class Diapason extends Application {
         tile.setAlignment(Pos.CENTER);
 
         HBox infoBox = new HBox();
+        help = new Button("Help");
+        help.setOnAction(e -> helpClicked(stage));
         about = new Button("About");
         about.setOnAction(e -> aboutClicked(stage));
-        infoBox.getChildren().add(about);
+        infoBox.getChildren().addAll(help, about);
         infoBox.setAlignment(Pos.BOTTOM_CENTER);
 
         VBox box = new VBox();
         box.getChildren().addAll(freqBox, tile, infoBox);
-        box.setPadding(new Insets(12));
+        box.setPadding(new Insets(12, 8, 12, 8));
         box.setSpacing(8);
         box.setAlignment(Pos.CENTER);
 
         for (ToggleButton button : buttons) {
             button.setMinSize(64, 16);
             button.minWidthProperty().bind(stage.widthProperty().divide(7));
-            button.minHeightProperty().bind(stage.heightProperty().divide(7));
+            button.minHeightProperty().bind(stage.heightProperty().divide(6));
         }
         freqCombo.minWidthProperty().bind(stage.widthProperty().divide(6));
         freqCombo.minHeightProperty().bind(stage.heightProperty().divide(7));
         vol.minWidthProperty().bind(stage.widthProperty().divide(3));
         vol.minHeightProperty().bind(stage.heightProperty().divide(7));
-        about.minWidthProperty().bind(stage.widthProperty().divide(6));
+        help.minWidthProperty().bind(stage.widthProperty().divide(7));
+        help.minHeightProperty().bind(stage.heightProperty().divide(7));
+        about.minWidthProperty().bind(stage.widthProperty().divide(7));
         about.minHeightProperty().bind(stage.heightProperty().divide(7));
 
         Scene scene = new Scene(box, minWidth, minHeight);
@@ -207,6 +210,25 @@ public class Diapason extends Application {
             if (sound.isInterrupted())
                 return;
         }
+    }
+
+    private void helpClicked(Stage stage) {
+        String info = """
+                Choose the frequency you want for A.
+                Each note button will produce a sound
+                of appropriate frequency, corresponding
+                to the selected A frequency.
+                Push the button again for the sound to stop.
+                The sound will stop anyway after 10 seconds,
+                or if you push another note button.
+                Your frequency and volume preferences will
+                automatically be saved.""";
+        Alert infoDialog = new Alert(Alert.AlertType.INFORMATION);
+        infoDialog.setTitle("How to use");
+        infoDialog.setHeaderText("Instructions");
+        infoDialog.setContentText(info);
+        infoDialog.initOwner(stage);
+        infoDialog.showAndWait();
     }
 
     public void aboutClicked(Stage stage) {
