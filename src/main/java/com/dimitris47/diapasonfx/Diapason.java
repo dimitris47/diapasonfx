@@ -4,8 +4,9 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
@@ -22,13 +23,14 @@ public class Diapason extends Application {
     double minHeight;
 
     String[] notes;
-    ArrayList<Button> buttons;
-    ComboBox<String> freqCombo, durCombo;
+    ArrayList<ToggleButton> buttons;
+    ComboBox<String> freqCombo;
+    Label lblVol;
     Slider vol;
-    Button stop, about;
+    Button about;
 
     static ArrayList<Double> currFreq;
-    static int mSec, volume;
+    static int volume;
     static Thread sound;
 
     @Override
@@ -42,7 +44,7 @@ public class Diapason extends Application {
 
         buttons = new ArrayList<>(12);
         for (int i = 0; i < 12; i++)
-            buttons.add(i, new Button(notes[i]));
+            buttons.add(i, new ToggleButton(notes[i]));
         for (int note = 0; note < buttons.size(); note++) {
             buttons.get(note).setText(notes[note]);
             int finalNote = note;
@@ -54,6 +56,7 @@ public class Diapason extends Application {
         for (int i = 392; i < 490; i++)
             aFreq.add("a = " + i + "Hz");
         freqCombo = new ComboBox<>();
+//        freqCombo.getEditor().setAlignment(Pos.CENTER);
         freqCombo.getItems().addAll(aFreq);
         freqCombo.setValue("a = 440Hz");
         freqCombo.setOnAction(e -> freqClick());
@@ -75,12 +78,9 @@ public class Diapason extends Application {
             }
         });
 
-        ArrayList<String> dur = new ArrayList<>();
-        for (int i = 1; i < 11; i++)
-            dur.add(i + " sec");
-        durCombo = new ComboBox<>();
-        durCombo.getItems().addAll(dur);
-        durCombo.setValue("1 sec");
+        lblVol = new Label("Volume");
+        lblVol.setPadding(new Insets(0, 4, 0, 12));
+        lblVol.minHeightProperty().bind(stage.heightProperty().divide(7));
 
         vol = new Slider();
         vol.setValue(50);
@@ -88,16 +88,13 @@ public class Diapason extends Application {
         vol.setMinHeight(26);
         vol.setOnDragDetected(e -> volChanged());
 
-        stop = new Button("Stop");
-        stop.setOnAction(e -> stopPressed());
-
         HBox freqBox = new HBox();
         freqBox.setSpacing(8);
-        freqBox.getChildren().addAll(freqCombo, vol, durCombo, stop);
+        freqBox.getChildren().addAll(freqCombo, lblVol, vol);
         freqBox.setAlignment(Pos.TOP_CENTER);
 
         TilePane tile = new TilePane();
-        for (Button button : buttons)
+        for (ToggleButton button : buttons)
             tile.getChildren().add(button);
         tile.setPrefColumns(6);
         tile.setPrefRows(2);
@@ -115,19 +112,15 @@ public class Diapason extends Application {
         box.setSpacing(8);
         box.setAlignment(Pos.CENTER);
 
-        for (Button button : buttons) {
+        for (ToggleButton button : buttons) {
             button.setMinSize(64, 16);
             button.minWidthProperty().bind(stage.widthProperty().divide(7));
             button.minHeightProperty().bind(stage.heightProperty().divide(7));
         }
-        freqCombo.minWidthProperty().bind(stage.widthProperty().divide(4));
+        freqCombo.minWidthProperty().bind(stage.widthProperty().divide(6));
         freqCombo.minHeightProperty().bind(stage.heightProperty().divide(7));
         vol.minWidthProperty().bind(stage.widthProperty().divide(3));
         vol.minHeightProperty().bind(stage.heightProperty().divide(7));
-        durCombo.minWidthProperty().bind(stage.widthProperty().divide(5));
-        durCombo.minHeightProperty().bind(stage.heightProperty().divide(7));
-        stop.minWidthProperty().bind(stage.widthProperty().divide(8));
-        stop.minHeightProperty().bind(stage.heightProperty().divide(7));
         about.minWidthProperty().bind(stage.widthProperty().divide(6));
         about.minHeightProperty().bind(stage.heightProperty().divide(7));
 
@@ -150,9 +143,6 @@ public class Diapason extends Application {
         final String selectedVolume = "volume";
         String volume = String.valueOf(vol.getValue());
         prefs.put(selectedVolume, volume);
-        final String selectedDuration = "durIndex";
-        String duration = durCombo.getValue();
-        prefs.put(selectedDuration, duration);
         final String locX = "locationX";
         prefs.put(locX, String.valueOf(stage.getX()));
         final String locY = "locationY";
@@ -170,8 +160,6 @@ public class Diapason extends Application {
         freqCombo.setValue(savedFrequency);
         final String savedVolume = prefs.get("volume", "50.0");
         vol.setValue(Double.parseDouble(savedVolume));
-        final String savedDuration = prefs.get("durIndex", "1 sec");
-        durCombo.setValue(savedDuration);
         final double savedX = Double.parseDouble(prefs.get("locationX", "128.0"));
         final double savedY = Double.parseDouble(prefs.get("locationY", "64.0"));
         stage.setX(savedX);
@@ -183,14 +171,21 @@ public class Diapason extends Application {
     }
 
     public void btnClick(int currButton) {
-        freqClick();
-        durClick();
-        volChanged();
-        sound = new Thread(new Tone(), "Sound");
-        Tone.freq = currFreq.get(currButton);
-        Tone.ms = mSec;
-        Tone.volume = volume;
-        sound.start();
+        if (sound != null)
+            stopSound();
+        for (int i = 0; i < 12; i++)
+            if (i != currButton)
+                buttons.get(i).setSelected(false);
+        if (buttons.get(currButton).isSelected()) {
+            freqClick();
+            volChanged();
+            sound = new Thread(new Tone(), "Sound");
+            Tone.freq = currFreq.get(currButton);
+            Tone.volume = volume;
+            sound.start();
+        }
+        else
+            stopSound();
     }
 
     public void freqClick() {
@@ -201,19 +196,13 @@ public class Diapason extends Application {
         currFreq = f.currFreq;
     }
 
-    public void durClick() {
-        String[] item = durCombo.getValue().split(" sec");
-        int selection = Integer.parseInt(item[0]);
-        mSec = selection * 1000;
-    }
-
     public void volChanged() {
         volume = (int) vol.getValue();
     }
 
-    public void stopPressed() {
+    public void stopSound() {
         while (!sound.isInterrupted()) {
-            for (int i = 0; i < mSec * 1000; i++)
+            for (int i = 0; i < 10_000_000; i++)
                 sound.interrupt();
             if (sound.isInterrupted())
                 return;

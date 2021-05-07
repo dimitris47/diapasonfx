@@ -7,7 +7,6 @@ import javax.sound.sampled.SourceDataLine;
 
 public class Tone implements Runnable {
     public static double freq;
-    public static int ms;
     public static int volume;
 
     @Override
@@ -29,7 +28,7 @@ public class Tone implements Runnable {
             e.printStackTrace();
         }
         sdl.start();
-        for (double i = 0; i < ms * sampleRate / 1000.0; i++) {
+        for (double i = 0; i < 10000 * sampleRate / 1000.0; i++) {
             double angle = i / (sampleRate / freq) * 2 * Math.PI;
             buf[0] = (byte) (Math.sin(angle) * volume);
             sdl.write(buf, 0, 1);
