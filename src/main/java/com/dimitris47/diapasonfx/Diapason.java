@@ -218,12 +218,11 @@ public class Diapason extends Application {
                 Each note button will produce a sound
                 of appropriate frequency, corresponding
                 to the selected A frequency.
-                Push the button again for the sound to stop.
-                The sound will stop anyway after 10 seconds,
-                or if you push another note button.
-                Your frequency and volume preferences will
-                automatically be saved.""";
+                Pushing the button again or pushing another
+                note button will stop the sound. The sound
+                will stop itself after 10 seconds.""";
         Alert infoDialog = new Alert(Alert.AlertType.INFORMATION);
+        infoDialog.setResizable(true);
         infoDialog.setTitle("How to use");
         infoDialog.setHeaderText("Instructions");
         infoDialog.setContentText(info);
