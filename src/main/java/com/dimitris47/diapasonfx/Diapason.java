@@ -23,10 +23,11 @@ public class Diapason extends Application {
     double minHeight;
 
     String[] notes;
-    ArrayList<ToggleButton> buttons;
+    static ArrayList<ToggleButton> buttons;
     ComboBox<String> freqCombo;
     Label lblVol;
     Slider vol;
+    static ProgressBar bar;
     Button help, about;
 
     static ArrayList<Double> currFreq;
@@ -37,7 +38,7 @@ public class Diapason extends Application {
     public void start(Stage stage) {
         prefs = Preferences.userNodeForPackage(Diapason.class);
         minWidth = 480;
-        minHeight = 224;
+        minHeight = 304;
 
         notes = new String[] {"C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F",
                 "F\u266F/G\u266D", "G", "G\u266F/A\u266D", "A", "A\u266F/B\u266D", "B"};
@@ -99,6 +100,10 @@ public class Diapason extends Application {
         tile.setPrefRows(2);
         tile.setAlignment(Pos.CENTER);
 
+        bar = new ProgressBar();
+        bar.setPadding(new Insets(8));
+        bar.setProgress(0.0);
+
         HBox infoBox = new HBox();
         help = new Button("Help");
         help.setOnAction(e -> helpClicked(stage));
@@ -108,7 +113,7 @@ public class Diapason extends Application {
         infoBox.setAlignment(Pos.BOTTOM_CENTER);
 
         VBox box = new VBox();
-        box.getChildren().addAll(freqBox, tile, infoBox);
+        box.getChildren().addAll(freqBox, tile, bar, infoBox);
         box.setPadding(new Insets(12, 8, 12, 8));
         box.setSpacing(8);
         box.setAlignment(Pos.CENTER);
@@ -122,6 +127,7 @@ public class Diapason extends Application {
         freqCombo.minHeightProperty().bind(stage.heightProperty().divide(7));
         vol.minWidthProperty().bind(stage.widthProperty().divide(3));
         vol.minHeightProperty().bind(stage.heightProperty().divide(7));
+        bar.minWidthProperty().bind(stage.widthProperty().divide(2));
         help.minWidthProperty().bind(stage.widthProperty().divide(7));
         help.minHeightProperty().bind(stage.heightProperty().divide(7));
         about.minWidthProperty().bind(stage.widthProperty().divide(7));
@@ -135,7 +141,13 @@ public class Diapason extends Application {
         stage.getIcons().add(new Image("diapason.png"));
 
         restorePrefs(stage);
-        stage.setOnCloseRequest(e -> savePrefs(stage));
+        stage.setOnCloseRequest(e -> {
+            for (int i = 0; i < 12; i++) {
+                buttons.get(i).setSelected(false);
+                btnClick(i);
+            }
+            savePrefs(stage);
+        });
         stage.show();
     }
 
@@ -174,8 +186,10 @@ public class Diapason extends Application {
     }
 
     public void btnClick(int currButton) {
-        if (sound != null)
+        if (sound != null) {
             stopSound();
+            bar.setProgress(0.0);
+        }
         for (int i = 0; i < 12; i++)
             if (i != currButton)
                 buttons.get(i).setSelected(false);
@@ -191,6 +205,15 @@ public class Diapason extends Application {
             stopSound();
     }
 
+    public void stopSound() {
+        while (!sound.isInterrupted()) {
+            for (int i = 0; i < 10_000_000; i++)
+                sound.interrupt();
+            if (sound.isInterrupted())
+                return;
+        }
+    }
+
     public void freqClick() {
         String[] item = freqCombo.getValue().split("a = ");
         String[] stripped = item[1].split("Hz");
@@ -201,15 +224,6 @@ public class Diapason extends Application {
 
     public void volChanged() {
         volume = (int) vol.getValue();
-    }
-
-    public void stopSound() {
-        while (!sound.isInterrupted()) {
-            for (int i = 0; i < 10_000_000; i++)
-                sound.interrupt();
-            if (sound.isInterrupted())
-                return;
-        }
     }
 
     private void helpClicked(Stage stage) {

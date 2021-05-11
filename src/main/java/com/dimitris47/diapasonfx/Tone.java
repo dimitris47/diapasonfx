@@ -1,5 +1,7 @@
 package com.dimitris47.diapasonfx;
 
+import javafx.application.Platform;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
@@ -28,10 +30,12 @@ public class Tone implements Runnable {
             e.printStackTrace();
         }
         sdl.start();
-        for (double i = 0; i < 10000 * sampleRate / 1000.0; i++) {
+        for (double i = 0; i < 10.0 * sampleRate; i++) {
             double angle = i / (sampleRate / freq) * 2 * Math.PI;
             buf[0] = (byte) (Math.sin(angle) * volume);
             sdl.write(buf, 0, 1);
+            double finalI = i;
+            Platform.runLater(() -> Diapason.bar.setProgress(finalI / 441000.0));
             if (t.isInterrupted()) {
                 t.interrupt();
                 return;
@@ -40,5 +44,7 @@ public class Tone implements Runnable {
         sdl.drain();
         sdl.stop();
         sdl.close();
+        for (var button : Diapason.buttons)
+            button.setSelected(false);
     }
 }
