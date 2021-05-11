@@ -142,10 +142,8 @@ public class Diapason extends Application {
 
         restorePrefs(stage);
         stage.setOnCloseRequest(e -> {
-            for (int i = 0; i < 12; i++) {
-                buttons.get(i).setSelected(false);
-                btnClick(i);
-            }
+            if (sound != null)
+                stopSound();
             savePrefs(stage);
         });
         stage.show();
