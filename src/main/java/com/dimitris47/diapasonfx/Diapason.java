@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -58,6 +59,9 @@ public class Diapason extends Application {
             aFreq.add("a = " + i + "Hz");
         freqCombo = new ComboBox<>();
         freqCombo.getItems().addAll(aFreq);
+        Tooltip tip = new Tooltip("Click or scroll to select your preferred A4 frequency");
+        tip.setShowDelay(new Duration(200));
+        freqCombo.setTooltip(tip);
         freqCombo.setValue("a = 440Hz");
         freqCombo.setOnAction(e -> freqClick());
         freqCombo.setOnScroll(e -> {
@@ -84,7 +88,6 @@ public class Diapason extends Application {
 
         vol = new Slider();
         vol.setValue(50);
-        vol.setTooltip(new Tooltip("Volume"));
         vol.setMinHeight(26);
         vol.setOnDragDetected(e -> volChanged());
 
