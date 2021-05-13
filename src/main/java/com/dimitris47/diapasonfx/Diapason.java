@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -38,7 +39,7 @@ public class Diapason extends Application {
     @Override
     public void start(Stage stage) {
         prefs = Preferences.userNodeForPackage(Diapason.class);
-        minWidth = 480;
+        minWidth = 504;
         minHeight = 304;
 
         notes = new String[] {"C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F",
@@ -84,7 +85,6 @@ public class Diapason extends Application {
 
         lblVol = new Label("Volume");
         lblVol.setPadding(new Insets(0, 4, 0, 12));
-        lblVol.minHeightProperty().bind(stage.heightProperty().divide(7));
 
         vol = new Slider();
         vol.setValue(50);
@@ -125,16 +125,18 @@ public class Diapason extends Application {
             button.setMinSize(64, 16);
             button.minWidthProperty().bind(stage.widthProperty().divide(7));
             button.minHeightProperty().bind(stage.heightProperty().divide(6));
+            button.setFont(new Font(16));
         }
         freqCombo.minWidthProperty().bind(stage.widthProperty().divide(6));
-        freqCombo.minHeightProperty().bind(stage.heightProperty().divide(7));
+        freqCombo.minHeightProperty().bind(stage.heightProperty().divide(8));
+        lblVol.minHeightProperty().bind(stage.heightProperty().divide(7));
         vol.minWidthProperty().bind(stage.widthProperty().divide(3));
         vol.minHeightProperty().bind(stage.heightProperty().divide(7));
         bar.minWidthProperty().bind(stage.widthProperty().divide(2));
         help.minWidthProperty().bind(stage.widthProperty().divide(7));
-        help.minHeightProperty().bind(stage.heightProperty().divide(7));
+        help.minHeightProperty().bind(stage.heightProperty().divide(8));
         about.minWidthProperty().bind(stage.widthProperty().divide(7));
-        about.minHeightProperty().bind(stage.heightProperty().divide(7));
+        about.minHeightProperty().bind(stage.heightProperty().divide(8));
 
         Scene scene = new Scene(box, minWidth, minHeight);
         stage.setScene(scene);
