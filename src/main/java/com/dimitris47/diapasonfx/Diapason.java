@@ -257,6 +257,7 @@ public class Diapason extends Application {
 
                 \u00A9 2021 Dimitris Psathas""";
         Alert infoDialog = new Alert(Alert.AlertType.INFORMATION);
+        infoDialog.setResizable(true);
         infoDialog.setTitle("Program Info");
         infoDialog.setHeaderText("DiapasonFX");
         infoDialog.setContentText(info);
