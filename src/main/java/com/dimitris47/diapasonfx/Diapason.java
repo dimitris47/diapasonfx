@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
@@ -27,7 +29,7 @@ public class Diapason extends Application {
     String[] notes;
     static ArrayList<ToggleButton> buttons;
     ComboBox<String> freqCombo;
-    Label lblVol;
+    Label lblVol, instr;
     Slider vol;
     static ProgressBar bar;
     Button help, about;
@@ -40,10 +42,12 @@ public class Diapason extends Application {
     public void start(Stage stage) {
         prefs = Preferences.userNodeForPackage(Diapason.class);
         minWidth = 504;
-        minHeight = 304;
+        minHeight = 352;
 
         notes = new String[] {"C", "C\u266F/D\u266D", "D", "D\u266F/E\u266D", "E", "F",
                 "F\u266F/G\u266D", "G", "G\u266F/A\u266D", "A", "A\u266F/B\u266D", "B"};
+
+        instr = new Label("Click to start/stop sound or right-click to make a short sound");
 
         buttons = new ArrayList<>(12);
         for (int i = 0; i < 12; i++)
@@ -51,7 +55,14 @@ public class Diapason extends Application {
         for (int note = 0; note < buttons.size(); note++) {
             buttons.get(note).setText(notes[note]);
             int finalNote = note;
-            buttons.get(note).setOnAction(e -> btnClick(buttons.indexOf(buttons.get(finalNote))));
+            buttons.get(note).setOnMouseClicked(e -> {
+                if (e.getButton() == MouseButton.SECONDARY) {
+                    buttons.get(finalNote).setSelected(true);
+                    btnClick(buttons.indexOf(buttons.get(finalNote)), 0.8);
+                }
+                else
+                    btnClick(buttons.indexOf(buttons.get(finalNote)), 10.0);
+            });
         }
 
         currFreq = new ArrayList<>(12);
@@ -70,15 +81,15 @@ public class Diapason extends Application {
             if (deltaY > 0) {
                 try {
                     Robot r = new Robot();
-                    r.keyPress(java.awt.event.KeyEvent.VK_UP);
-                    r.keyRelease(java.awt.event.KeyEvent.VK_UP);
+                    r.keyPress(KeyEvent.VK_UP);
+                    r.keyRelease(KeyEvent.VK_UP);
                 } catch (AWTException exc) { exc.printStackTrace(); }
             }
             else if  (deltaY < 0) {
                 try {
                     Robot r = new Robot();
-                    r.keyPress(java.awt.event.KeyEvent.VK_DOWN);
-                    r.keyRelease(java.awt.event.KeyEvent.VK_DOWN);
+                    r.keyPress(KeyEvent.VK_DOWN);
+                    r.keyRelease(KeyEvent.VK_DOWN);
                 } catch (AWTException exc) { exc.printStackTrace(); }
             }
         });
@@ -116,7 +127,7 @@ public class Diapason extends Application {
         infoBox.setAlignment(Pos.BOTTOM_CENTER);
 
         VBox box = new VBox();
-        box.getChildren().addAll(freqBox, tile, bar, infoBox);
+        box.getChildren().addAll(freqBox, instr, tile, bar, infoBox);
         box.setPadding(new Insets(12, 8, 12, 8));
         box.setSpacing(8);
         box.setAlignment(Pos.CENTER);
@@ -188,11 +199,9 @@ public class Diapason extends Application {
         stage.setHeight(savedHeight);
     }
 
-    public void btnClick(int currButton) {
-        if (sound != null) {
+    public void btnClick(int currButton, double sec) {
+        if (sound != null)
             stopSound();
-            bar.setProgress(0.0);
-        }
         for (int i = 0; i < 12; i++)
             if (i != currButton)
                 buttons.get(i).setSelected(false);
@@ -200,15 +209,15 @@ public class Diapason extends Application {
             freqClick();
             volChanged();
             sound = new Thread(new Tone(), "Sound");
+            Tone.sec = sec;
             Tone.freq = currFreq.get(currButton);
             Tone.volume = volume;
             sound.start();
         }
-        else
-            stopSound();
     }
 
     public void stopSound() {
+        bar.setProgress(0.0);
         while (!sound.isInterrupted()) {
             for (int i = 0; i < 10_000_000; i++)
                 sound.interrupt();

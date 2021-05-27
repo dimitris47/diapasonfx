@@ -10,6 +10,7 @@ import javax.sound.sampled.SourceDataLine;
 public class Tone implements Runnable {
     public static double freq;
     public static int volume;
+    public static double sec;
 
     @Override
     public void run() {
@@ -30,12 +31,12 @@ public class Tone implements Runnable {
             e.printStackTrace();
         }
         sdl.start();
-        for (double i = 0; i < 10.0 * sampleRate; i++) {
+        for (double i = 0; i < sec * sampleRate; i++) {
             double angle = i / (sampleRate / freq) * 2 * Math.PI;
             buf[0] = (byte) (Math.sin(angle) * volume);
             sdl.write(buf, 0, 1);
             double finalI = i;
-            Platform.runLater(() -> Diapason.bar.setProgress(finalI / 441000.0));
+            Platform.runLater(() -> Diapason.bar.setProgress(finalI / 44100.0 / sec));
             if (t.isInterrupted()) {
                 t.interrupt();
                 return;
