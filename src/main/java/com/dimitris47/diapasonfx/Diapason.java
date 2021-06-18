@@ -85,7 +85,7 @@ public class Diapason extends Application {
                     r.keyRelease(KeyEvent.VK_UP);
                 } catch (AWTException exc) { exc.printStackTrace(); }
             }
-            else if  (deltaY < 0) {
+            else if (deltaY < 0) {
                 try {
                     Robot r = new Robot();
                     r.keyPress(KeyEvent.VK_DOWN);
@@ -135,19 +135,19 @@ public class Diapason extends Application {
         for (ToggleButton button : buttons) {
             button.setMinSize(64, 16);
             button.minWidthProperty().bind(stage.widthProperty().divide(7));
-            button.minHeightProperty().bind(stage.heightProperty().divide(6));
+            button.minHeightProperty().bind(stage.heightProperty().divide(7));
             button.setFont(new Font(16));
         }
         freqCombo.minWidthProperty().bind(stage.widthProperty().divide(6));
-        freqCombo.minHeightProperty().bind(stage.heightProperty().divide(8));
-        lblVol.minHeightProperty().bind(stage.heightProperty().divide(7));
+        freqCombo.minHeightProperty().bind(stage.heightProperty().divide(9));
+        lblVol.minHeightProperty().bind(stage.heightProperty().divide(8));
         vol.minWidthProperty().bind(stage.widthProperty().divide(3));
-        vol.minHeightProperty().bind(stage.heightProperty().divide(7));
+        vol.minHeightProperty().bind(stage.heightProperty().divide(8));
         bar.minWidthProperty().bind(stage.widthProperty().divide(2));
         help.minWidthProperty().bind(stage.widthProperty().divide(7));
-        help.minHeightProperty().bind(stage.heightProperty().divide(8));
+        help.minHeightProperty().bind(stage.heightProperty().divide(9));
         about.minWidthProperty().bind(stage.widthProperty().divide(7));
-        about.minHeightProperty().bind(stage.heightProperty().divide(8));
+        about.minHeightProperty().bind(stage.heightProperty().divide(9));
 
         Scene scene = new Scene(box, minWidth, minHeight);
         stage.setScene(scene);
