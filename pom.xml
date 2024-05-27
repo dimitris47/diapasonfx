@@ -6,7 +6,7 @@
 
     <groupId>com.dimitris47</groupId>
     <artifactId>DiapasonFX</artifactId>
-    <version>4.0</version>
+    <version>4.0.1</version>
 
     <properties>
         <maven.compiler.source>15</maven.compiler.source>

@@ -1,17 +1,17 @@
 /**
- * Copyright 2021 Dimitris Psathas <dimitrisinbox@gmail.com>
- *
+ * Copyright 2021-2024 Dimitris Psathas <dimitrisinbox@gmail.com>
+ * <p>
  * This file is part of DiapasonFX.
- *
+ * <p>
  * DiapasonFX is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License  as  published by  the  Free Software
  * Foundation,  either version 3 of the License,  or (at your option)  any later
  * version.
- *
+ * <p>
  * DiapasonFX is distributed in the hope that it will be useful,  but  WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE.  See the  GNU General Public License  for more details.
- *
+ * <p>
  * You should have received a copy of the  GNU General Public License along with
  * DiapasonFX. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -50,7 +50,7 @@ public class Tone implements Runnable {
             e.printStackTrace();
         }
         sdl.start();
-        for (double i = 0; i < sec * sampleRate; i++) {
+        for (double i=0; i<sec*sampleRate; i++) {
             double angle = i / (sampleRate / freq) * 2 * Math.PI;
             buf[0] = (byte) (Math.sin(angle) * volume);
             sdl.write(buf, 0, 1);
@@ -64,7 +64,8 @@ public class Tone implements Runnable {
         sdl.drain();
         sdl.stop();
         sdl.close();
-        for (var button : Diapason.buttons)
+        for (var button : Diapason.buttons) {
             button.setSelected(false);
+        }
     }
 }
