@@ -154,8 +154,7 @@ public class Diapason extends Application {
 
         VBox box = new VBox();
         box.getChildren().addAll(freqBox, instructLbl, tile, bar, infoBox);
-        box.setPadding(new Insets(12, 8, 12, 8));
-        box.setSpacing(8);
+        box.setSpacing(12);
         box.setAlignment(Pos.CENTER);
 
         for (ToggleButton button : buttons) {
