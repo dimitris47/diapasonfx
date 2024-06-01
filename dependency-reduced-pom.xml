@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.dimitris47</groupId>
   <artifactId>DiapasonFX</artifactId>
-  <version>4.1</version>
+  <version>4.0.1</version>
   <build>
     <plugins>
       <plugin>
@@ -60,7 +60,7 @@
     </plugins>
   </build>
   <properties>
-    <maven.compiler.target>15</maven.compiler.target>
-    <maven.compiler.source>15</maven.compiler.source>
+    <maven.compiler.target>22</maven.compiler.target>
+    <maven.compiler.source>22</maven.compiler.source>
   </properties>
 </project>
