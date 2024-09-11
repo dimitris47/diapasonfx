@@ -48,9 +48,8 @@ public class Diapason extends Application {
     String[] notes;
     static ArrayList<ToggleButton> buttons;
     ComboBox<String> freqCombo;
-    Label volLbl, instructLbl;
+    Label volLbl;
     Slider volSlider;
-    static ProgressBar bar;
     Button helpBtn, aboutBtn;
 
     static ArrayList<Double> currFreq;
@@ -61,12 +60,10 @@ public class Diapason extends Application {
     public void start(Stage stage) {
         prefs = Preferences.userNodeForPackage(Diapason.class);
         minWidth = 504;
-        minHeight = 352;
+        minHeight = 320;
 
         notes = new String[] {"C", "C♯/D♭", "D", "D♯/E♭", "E", "F",
                 "F♯/G♭", "G", "G♯/A♭", "A", "A♯/B♭", "B"};
-
-        instructLbl = new Label("Click to start/stop sound or right-click to make a short sound");
 
         buttons = new ArrayList<>(12);
         for (int i=0; i<12; i++) {
@@ -97,7 +94,7 @@ public class Diapason extends Application {
         tip.setShowDelay(new Duration(200));
         freqCombo.setTooltip(tip);
         freqCombo.setValue("a = 440Hz");
-        freqCombo.setOnAction(e -> freqClick());
+        freqCombo.setOnAction(_ -> freqClick());
         freqCombo.setOnScroll(e -> {
             int deltaY = (int) e.getDeltaY();
             if (deltaY > 0) {
@@ -122,7 +119,7 @@ public class Diapason extends Application {
         volSlider = new Slider();
         volSlider.setValue(50);
         volSlider.setMinHeight(26);
-        volSlider.setOnDragDetected(e -> volChanged());
+        volSlider.setOnDragDetected(_ -> volChanged());
 
         HBox freqBox = new HBox();
         freqBox.setSpacing(8);
@@ -139,36 +136,32 @@ public class Diapason extends Application {
         tile.setPrefRows(2);
         tile.setAlignment(Pos.CENTER);
 
-        bar = new ProgressBar();
-        bar.setPadding(new Insets(8));
-        bar.setProgress(0.0);
-
         HBox infoBox = new HBox();
         helpBtn = new Button("Help");
-        helpBtn.setOnAction(e -> helpClicked(stage));
+        helpBtn.setOnAction(_ -> helpClicked(stage));
         aboutBtn = new Button("About");
-        aboutBtn.setOnAction(e -> aboutClicked(stage));
+        aboutBtn.setOnAction(_ -> aboutClicked(stage));
         infoBox.getChildren().addAll(helpBtn, aboutBtn);
         infoBox.setSpacing(4);
         infoBox.setAlignment(Pos.BOTTOM_CENTER);
 
         VBox box = new VBox();
-        box.getChildren().addAll(freqBox, instructLbl, tile, bar, infoBox);
+        box.getChildren().addAll(freqBox, tile, infoBox);
         box.setSpacing(12);
         box.setAlignment(Pos.CENTER);
 
+        Font f = Font.font(16);
         for (ToggleButton button : buttons) {
             button.setMinSize(64, 16);
             button.minWidthProperty().bind(stage.widthProperty().divide(7));
-            button.minHeightProperty().bind(stage.heightProperty().divide(7));
-            button.setFont(new Font(16));
+            button.minHeightProperty().bind(stage.heightProperty().divide(6));
+            button.setFont(f);
         }
         freqCombo.minWidthProperty().bind(stage.widthProperty().divide(6));
         freqCombo.minHeightProperty().bind(stage.heightProperty().divide(9));
         volLbl.minHeightProperty().bind(stage.heightProperty().divide(8));
         volSlider.minWidthProperty().bind(stage.widthProperty().divide(3));
         volSlider.minHeightProperty().bind(stage.heightProperty().divide(8));
-        bar.minWidthProperty().bind(stage.widthProperty().divide(2));
         helpBtn.minWidthProperty().bind(stage.widthProperty().divide(7));
         helpBtn.minHeightProperty().bind(stage.heightProperty().divide(9));
         aboutBtn.minWidthProperty().bind(stage.widthProperty().divide(7));
@@ -182,7 +175,7 @@ public class Diapason extends Application {
         stage.getIcons().add(new Image("diapason.png"));
 
         restorePrefs(stage);
-        stage.setOnCloseRequest(e -> {
+        stage.setOnCloseRequest(_ -> {
             if (soundThread != null) {
                 stopSound();
             }
@@ -238,15 +231,14 @@ public class Diapason extends Application {
             freqClick();
             volChanged();
             soundThread = new Thread(new Tone(), "Sound");
-            Tone.sec = sec;
-            Tone.freq = currFreq.get(currButton);
+            Tone.seconds = sec;
+            Tone.frequency = currFreq.get(currButton);
             Tone.volume = volume;
             soundThread.start();
         }
     }
 
     public void stopSound() {
-        bar.setProgress(0.0);
         while (!soundThread.isInterrupted()) {
             for (int i=0; i<10_000_000; i++) {
                 soundThread.interrupt();
@@ -272,13 +264,10 @@ public class Diapason extends Application {
     private void helpClicked(Stage stage) {
         String info = """
                 Choose the frequency you want for A.
-                
                 Each note button will produce a sound of appropriate frequency, corresponding to the selected A frequency.
-                
                 Pushing the button again or pushing another note button will stop the sound.
-                
                 The sound will automatically stop after 10 seconds.
-                
+                Right-clicking will produce a brief sound.
                 """;
         Alert infoDialog = new Alert(Alert.AlertType.INFORMATION);
         infoDialog.setResizable(true);
