@@ -19,17 +19,15 @@
 
 package com.dimitris47.diapasonfx;
 
-import javafx.application.Platform;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
 public class Tone implements Runnable {
-    public static double freq;
+    public static double frequency;
     public static int volume;
-    public static double sec;
+    public static double seconds;
 
     @Override
     public void run() {
@@ -50,14 +48,15 @@ public class Tone implements Runnable {
             e.printStackTrace();
         }
         sdl.start();
-        for (double i=0; i<sec*sampleRate; i++) {
-            double angle = i / (sampleRate / freq) * 2 * Math.PI;
+        for (double i=0; i<seconds*sampleRate; i++) {
+            double angle = i / (sampleRate / frequency) * 2 * Math.PI;
             buf[0] = (byte) (Math.sin(angle) * volume);
             sdl.write(buf, 0, 1);
-            double finalI = i;
-            Platform.runLater(() -> Diapason.bar.setProgress(finalI / 44100.0 / sec));
             if (t.isInterrupted()) {
                 t.interrupt();
+                sdl.drain();
+                sdl.stop();
+                sdl.close();
                 return;
             }
         }
