@@ -60,7 +60,7 @@ public class Diapason extends Application {
     public void start(Stage stage) {
         prefs = Preferences.userNodeForPackage(Diapason.class);
         minWidth = 504;
-        minHeight = 320;
+        minHeight = 284;
 
         notes = new String[] {"C", "C♯/D♭", "D", "D♯/E♭", "E", "F",
                 "F♯/G♭", "G", "G♯/A♭", "A", "A♯/B♭", "B"};
@@ -143,6 +143,7 @@ public class Diapason extends Application {
         aboutBtn.setOnAction(_ -> aboutClicked(stage));
         infoBox.getChildren().addAll(helpBtn, aboutBtn);
         infoBox.setSpacing(4);
+        infoBox.setPadding(new Insets(4, 0, 0, 0));
         infoBox.setAlignment(Pos.BOTTOM_CENTER);
 
         VBox box = new VBox();
@@ -154,7 +155,7 @@ public class Diapason extends Application {
         for (ToggleButton button : buttons) {
             button.setMinSize(64, 16);
             button.minWidthProperty().bind(stage.widthProperty().divide(7));
-            button.minHeightProperty().bind(stage.heightProperty().divide(6));
+            button.minHeightProperty().bind(stage.heightProperty().divide(5.6));
             button.setFont(f);
         }
         freqCombo.minWidthProperty().bind(stage.widthProperty().divide(6));
